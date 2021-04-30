@@ -14,6 +14,12 @@ const TestPage = (): JSX.Element => {
         isVisible={isVisible}
         title="Modal Title"
         onClose={() => setIsVisible(false)}
+        bottomButtonProps={[
+          {
+            children: "Close Modal",
+            onClick: () => setIsVisible(false),
+          },
+        ]}
       >
         <Button aria-label="close-modal" onClick={() => setIsVisible(false)}>
           Close
@@ -54,6 +60,18 @@ test("clicking background closes modal", async () => {
   expect(modalContainer).toBeInTheDocument();
   expect(modalContainer).toBeVisible();
   userEvent.click(modalContainer);
+
+  const modalContainerAfterClose = queryByTestId("modal-container");
+  expect(modalContainerAfterClose).not.toBeVisible();
+});
+
+test("displays bottom buttons", async () => {
+  const { getByText, getByTestId, queryByTestId } = render(<TestPage />);
+  const openButton = getByText("Open");
+  userEvent.click(openButton);
+
+  const closeButton = getByText("Close Modal");
+  userEvent.click(closeButton);
 
   const modalContainerAfterClose = queryByTestId("modal-container");
   expect(modalContainerAfterClose).not.toBeVisible();

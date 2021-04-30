@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import { Button, ButtonProps } from "../Button";
 
-interface ModalProps {
+export interface ModalProps {
   children?: React.ReactNode;
   title?: string;
   isVisible: boolean;
   onClose: () => void;
+  bottomButtonProps?: ButtonProps[];
 }
 
 const StyledModalContainer = styled.div(
@@ -25,7 +27,7 @@ const StyledModalContainer = styled.div(
 const StyledModal = styled.div`
   background-color: white;
   border-radius: 5px;
-  padding: 16px 24px;
+  padding: 24px;
   max-heigt: 90%;
   min-width: 100px;
   max-width: 450px;
@@ -36,8 +38,16 @@ const StyledModal = styled.div`
 const StyledHeader = styled.header`
   font-size: 24px;
   font-weight: 700;
-  width: 100%;
-  padding-bottom: 16px;
+  padding-bottom: 24px;
+`;
+
+const StyledFooter = styled.footer`
+  text-align: right;
+  padding-top: 24px;
+
+  button:not(:first-child) {
+    margin-left: 12px;
+  }
 `;
 
 // ModalContainer has onClick={onClose} and by default it's applied to all children.
@@ -53,6 +63,7 @@ export const Modal = ({
   isVisible,
   title,
   onClose,
+  bottomButtonProps,
 }: ModalProps): JSX.Element => {
   return (
     <StyledModalContainer
@@ -63,6 +74,12 @@ export const Modal = ({
       <StyledModal role="dialog" onClick={stopPropagation}>
         <StyledHeader>{title}</StyledHeader>
         {children}
+        <StyledFooter>
+          {bottomButtonProps &&
+            bottomButtonProps.map((args, idx) => (
+              <Button key={idx} {...args} />
+            ))}
+        </StyledFooter>
       </StyledModal>
     </StyledModalContainer>
   );

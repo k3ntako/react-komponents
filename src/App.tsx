@@ -14,13 +14,28 @@ function App() {
           <p>
             Edit <code>src/App.tsx</code> and save to reload.
           </p>
-          <Button onClick={() => setIsModalVisible(true)}>Learn React</Button>
+          <Button
+            primary
+            onClick={() => setIsModalVisible(true)}
+            children="Learn React"
+          />
         </header>
       </div>
       <Modal
         isVisible={isModalVisible}
         title="Learn React"
         onClose={() => setIsModalVisible(false)}
+        bottomButtonProps={[
+          {
+            children: "Close",
+            onClick: () => setIsModalVisible(false),
+          },
+          {
+            primary: true,
+            children: "Submit",
+            onClick: () => alert("Submitted!"),
+          },
+        ]}
       >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non metus
         et nisl placerat fringilla. Aliquam et venenatis lorem. In ac odio
