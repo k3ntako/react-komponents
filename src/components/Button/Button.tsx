@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from "react";
+import React, { ForwardedRef, forwardRef, MouseEventHandler } from "react";
 import styled from "styled-components";
 
 const defaultColor = "transparent";
@@ -37,6 +37,7 @@ export interface ButtonProps {
   onClick?: MouseEventHandler<HTMLButtonElement>;
   primary?: boolean;
   size?: ButtonSize;
+  ref?: React.MutableRefObject<HTMLButtonElement | null>;
 }
 
 const StyledButton = styled.button(
@@ -53,15 +54,14 @@ const StyledButton = styled.button(
 `
 );
 
-export const Button = ({
-  children,
-  onClick,
-  primary,
-  size = "medium",
-}: ButtonProps): JSX.Element => {
-  return (
-    <StyledButton onClick={onClick} primary={primary} size={size}>
-      {children}
-    </StyledButton>
-  );
-};
+export const Button = forwardRef(
+  (props: ButtonProps, ref: ForwardedRef<HTMLButtonElement>): JSX.Element => {
+    const { children, onClick, primary, size = "medium" } = props;
+
+    return (
+      <StyledButton ref={ref} onClick={onClick} primary={primary} size={size}>
+        {children}
+      </StyledButton>
+    );
+  }
+);

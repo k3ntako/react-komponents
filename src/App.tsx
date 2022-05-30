@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { Button, Modal } from "./components";
+import { DatePicker } from "./components/DatePicker";
 
 function App() {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [date, setDate] = useState<Date | null>(null);
 
   return (
     <>
@@ -48,6 +50,10 @@ function App() {
         consectetur adipiscing elit. Nunc nec aliquet libero. Sed ligula justo,
         pulvinar vitae bibendum ac, finibus quis justo. Suspendisse in orci
         convallis, facilisis augue sed, scelerisque nibh.
+        <div>
+          <DatePicker onChange={(newDate) => setDate(newDate)} />
+          {date && <div>Date:{date.toLocaleDateString()}</div>}
+        </div>
       </Modal>
     </>
   );
